@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
+<style type="text/css">
+body {
+    background-color: white;
+    color: black;
+    margin: 0;
+    font-family: 'Major Mono Display', monospace;
+}
+.page {
+    height: 100vh;
+}
+.slider input {
+  width: 300px;
+  height: 2px;
+  margin: 0;
+  transform-origin: 150px 150px;
+  transform: rotate(-90deg);
+}
+
+@media only screen and (max-width: 37.5em) {
+    body {
+        font-size: 1.5em;    
+    }
+    .header {
+        font-size: 1.5em;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+    <div class="page">
+        <div class="header">What to wear for the kid today?</div>
+        <div class="slider">
+                <label for="volume">Temperature C</label>
+                <input type="range" id="slider" name="slider" min="-25" max="25" onchange="draw(this.value)">
+        </div>
+        <div id="temperature" class="output"></div>
+        <div id="clothes" class="output"></div>
+    </div>
+
+<script>
+    var slider = document.getElementById("slider");
+    var output_temp = document.getElementById("temperature");
+    var output_clothers = document.getElementById("clothes");
+    output_temp.innerHTML = slider.value;
+    draw(slider.value);
+
+    slider.oninput = function() {
+        output_temp.innerHTML = this.value;
+        draw(this.value);
+    }
+    function draw(temp) {
+        if ( temp >= 20 ) {
+        document.getElementById("clothes").innerHTML = "Sunscreen, shorts, hat";
+        } else if (temp < 20 && temp > -20 ) {
+        document.getElementById("clothes").innerHTML = "Trousers, socks, shirt";
+        } else if (temp <= -20 ) {
+        document.getElementById("clothes").innerHTML = "Down jacket, mittens";
+        } 
+    }
+</script>
+
+</body>
