@@ -8,24 +8,46 @@ body {
     background-color: white;
     color: black;
     margin: 0;
+    padding: 0;
     font-family: 'Major Mono Display', monospace;
+    font-size: 1.5em;    
+    max-width: 600px;
 }
 .page {
-    height: 100vh;
+    margin: 15px;
+    height: 90%;
+}
+.slider {
+    padding-top: 50px;
+    margin: auto;
+    width: 30px;
 }
 .slider input:focus {
   outline: none;
 }
 .slider input {
+  display: block;
   -webkit-appearance: none;
-  border: 1px solid #000000;
-  background: #ffffff;
-  width: 300px;
-  height: 2px;
-  margin-left: 25%;
+  border: none;
+  background-color: rgba(0,0,0,0);
+  background-image: linear-gradient(to right, rgba(0,0,255,0.5),rgba(255,0,0,0.5));
+  width: 350px;
+  height: 30px;
   transform-origin: 150px 150px;
   transform: rotate(-90deg);
+  border-radius: 15px;
 }
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  background: black;
+  cursor: pointer;
+  margin-top: 0px;
+  }
 
 @media only screen and (max-width: 37.5em) {
     body {
@@ -35,7 +57,6 @@ body {
         font-size: 1.5em;
     }
     .slider input {
-        margin-left: 50%;
     }
 }
 
@@ -45,27 +66,26 @@ body {
 
 <body>
     <div class="page">
-        <div class="header">What to wear for the kid today?</div>
-        <div class="slider">
-                <label for="volume">Temperature C</label>
-                <input type="range" id="slider" name="slider" min="-25" max="25" onchange="draw(this.value)">
-        </div>
+        <div class="header">Kids wear</div>
         <div id="temperature" class="output"></div>
         <div id="clothes" class="output"></div>
+        <div class="slider">
+                <input type="range" id="slider" name="slider" min="-25" max="25" onchange="draw(this.value)">
+        </div>
     </div>
 
 <script>
     var slider = document.getElementById("slider");
     var output_temp = document.getElementById("temperature");
     var output_clothers = document.getElementById("clothes");
-    output_temp.innerHTML = slider.value;
-    draw(slider.value);
+    output_temp.innerHTML = "at " + slider.value + "&deg;C";
+    clothing(slider.value);
 
     slider.oninput = function() {
-        output_temp.innerHTML = this.value;
-        draw(this.value);
+        output_temp.innerHTML = "at " + this.value + "&deg;C";
+        clothing(this.value);
     }
-    function draw(temp) {
+    function clothing(temp) {
         if ( temp >= 20 ) {
         document.getElementById("clothes").innerHTML = "Sunscreen, shorts, hat";
         } else if (temp < 20 && temp > -20 ) {
