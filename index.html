@@ -86,6 +86,7 @@ input[type=range]::-webkit-slider-thumb {
         <div class="header">Kids wear</div>
         <div id="temperature" class="output"></div>
         <div id="clothes" class="output"></div>
+        <img class="image" id="swelter" src="swelter.svg">
         <img class="image" id="warmest" src="warmest.svg">
         <img class="image" id="warm" src="warm.svg">
         <img class="image" id="warmish" src="warmish.svg">
@@ -123,13 +124,16 @@ input[type=range]::-webkit-slider-thumb {
             elements[i].style.opacity = 0.0;
         }
   
-        if ( temp >= 19 ) {
+        if ( temp >= 23 ) {
         document.getElementById("clothes").innerHTML = "hat, T-shirt, Underwear, Shorts, Sandals"
-        document.getElementById("warmest").style.opacity = 0.85;       
-        } else if (temp < 19 && temp >= 12 ) {
+        document.getElementById("swelter").style.opacity = 0.85;       
+        } else if (temp < 23 && temp >= 19 ) {
+        document.getElementById("clothes").innerHTML = "Cap, Shirt, Underwear, Pants, Socks, Sneakers";
+        document.getElementById("warmest").style.opacity = 0.85;   
+        } else if (temp < 19 && temp >= 14 ) {
         document.getElementById("clothes").innerHTML = "Cap, Shirt, Sweater, Underwear, Pants, Socks, Sneakers";
         document.getElementById("warm").style.opacity = 0.85;       
-        } else if (temp < 13 && temp >= 9 ) {
+        } else if (temp < 14 && temp >= 9 ) {
         document.getElementById("clothes").innerHTML = "Cap, Shirt, Sweater, Jacket, Underwear, Pants, Socks, Sneakers";        
         document.getElementById("warmish").style.opacity = 0.85;       
         } else if (temp < 9 && temp >= 5 ) {
