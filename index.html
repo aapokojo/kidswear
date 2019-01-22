@@ -59,13 +59,12 @@ input[type=range]::-webkit-slider-thumb {
     left: 5px;
     width: 80%;
     max-width: 400px;
-}
-#coldest {
-    opacity: 0.75;
+    opacity: 0.0;
 }
 #clothes {
     font-size: 0.55em;
 }
+
 @media only screen and (max-width: 37.5em) {
     body {
         font-size: 1.5em;    
@@ -100,23 +99,38 @@ input[type=range]::-webkit-slider-thumb {
         </div>
     </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     var slider = document.getElementById("slider");
     var output_temp = document.getElementById("temperature");
     var output_clothers = document.getElementById("clothes");
-    output_temp.innerHTML = "at " + slider.value + "&deg;C";
-    clothing(slider.value);
+
+    $.getJSON('https://api.openweathermap.org/data/2.5/weather?lat=60.1098678&lon=24.7385093&APPID=92acb4ae0793881bc18ae00ef1ce1f8a', function(result){
+        temp = Math.round(result.main.temp - 273.15)
+        if ( temp > 25 ) {
+            temp = 25;
+        } else if ( temp < -25 ) {
+            temp = -25;
+        } 
+        slider.value = temp;
+        updateTemp(temp);
+    });
+
+    function updateTemp(temp) {
+        output_temp.innerHTML = "at " + temp + "&deg;C";
+        if ( temp == 25 ) {
+            output_temp.innerHTML = "at " + temp + "&deg;C & above";
+        }
+        if ( temp == -25 ) {
+            output_temp.innerHTML = "at " + temp + "&deg;C & below";
+        }
+        clothing(temp);
+    }
 
     slider.oninput = function() {
-        output_temp.innerHTML = "at " + this.value + "&deg;C";
-        if ( this.value == 25 ) {
-            output_temp.innerHTML = "at " + this.value + "&deg;C & above";
-        }
-        if ( this.value == -25 ) {
-            output_temp.innerHTML = "at " + this.value + "&deg;C & below";
-        }
-        clothing(this.value);
+        updateTemp(this.value);
     }
+
     function clothing(temp) {
         elements = document.getElementsByClassName("image");
 
