@@ -106,16 +106,24 @@ input[type=range]::-webkit-slider-thumb {
     var output_temp = document.getElementById("temperature");
     var output_clothers = document.getElementById("clothes");
 
-    $.getJSON('https://api.openweathermap.org/data/2.5/weather?lat=60.1098678&lon=24.7385093&APPID=92acb4ae0793881bc18ae00ef1ce1f8a', function(result){
+    if ( localStorage.getItem("temp") != "" && Date.now() - localStorage.timeStamp < 600000 ) {
+        temp = localStorage.getItem("temp");
+        slider.value = temp;
+        updateTemp(temp);
+    } else {
+        $.getJSON('https://api.openweathermap.org/data/2.5/weather?lat=60.1098678&lon=24.7385093&APPID=92acb4ae0793881bc18ae00ef1ce1f8a', function(result){
         temp = Math.round(result.main.temp - 273.15)
         if ( temp > 25 ) {
             temp = 25;
         } else if ( temp < -25 ) {
             temp = -25;
         } 
+        localStorage.setItem("temp", temp);
+        localStorage.setItem("timeStamp", Date.now());
         slider.value = temp;
         updateTemp(temp);
     });
+    }
 
     function updateTemp(temp) {
         output_temp.innerHTML = "at " + temp + "&deg;C";
