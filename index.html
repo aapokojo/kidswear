@@ -23,7 +23,7 @@ body {
     top: 500px;
     right: 13px;
     font-size: 0.4em;
-    width: 200px;
+    width: 90%;
     height: 75px;
     white-space: nowrap;    
     text-align: right;
@@ -128,7 +128,7 @@ input[type=range]::-webkit-slider-thumb {
         <div class="location" onclick="getLocation()">
             <img class="geo" id="notset" src="geo_notset.svg">
             <img class="geo" id="set" src="geo_set.svg">
-            <div class="geo" id="desc">Location set</div>
+            <div class="geo" id="desc"></div>
         </div>
     </div>
 
@@ -148,6 +148,7 @@ input[type=range]::-webkit-slider-thumb {
         temp = localStorage.getItem("temp");
         slider.value = temp;
         updateTemp(temp);
+        document.getElementById("desc").innerHTML = "Location set: " + localStorage.getItem("name");
     } else {
         lat = localStorage.getItem("latitude");
         lon = localStorage.getItem("longitude");
@@ -166,8 +167,10 @@ input[type=range]::-webkit-slider-thumb {
         } else if ( temp < -25 ) {
             temp = -25;
         } 
+        localStorage.setItem("name", result.name);
         localStorage.setItem("temp", temp);
         localStorage.setItem("timeStamp", Date.now());
+        document.getElementById("desc").innerHTML = "Location set: " + result.name;
         slider.value = temp;
         updateTemp(temp);
         });
@@ -237,13 +240,12 @@ input[type=range]::-webkit-slider-thumb {
                 localStorage.setItem("latitude", lat);
                 localStorage.setItem("longitude", lon);
                 getWeatherData(lat, lon);
-                document.getElementById("desc").innerHTML = "Location set"
                 document.getElementById("notset").style.opacity = 0.0;       
                 document.getElementById("set").style.opacity = 1.0;
 
             },
             function errorCallback(error) {
-                document.getElementById("desc").innerHTML = "Location could not be set"
+                document.getElementById("desc").innerHTML = "Location could not be set";
                 document.getElementById("notset").style.opacity = 1.0;       
                 document.getElementById("set").style.opacity = 0.0;
                 console.log(error);
