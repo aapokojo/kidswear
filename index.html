@@ -91,6 +91,7 @@ input[type=range]::-webkit-slider-thumb {
         <img class="image" id="warmish" src="warmish.svg">
         <img class="image" id="semiwarm" src="semiwarm.svg">
         <img class="image" id="zero" src="zero.svg">
+        <img class="image" id="subzero" src="subzero.svg">
         <img class="image" id="semicold" src="semicold.svg">
         <img class="image" id="cold" src="cold.svg">
         <img class="image" id="coldest" src="coldest.svg">
@@ -137,25 +138,27 @@ input[type=range]::-webkit-slider-thumb {
         for(var i=0; i < elements.length; i++) { 
             elements[i].style.opacity = 0.0;
         }
-  
         if ( temp >= 23 ) {
         document.getElementById("clothes").innerHTML = "hat, T-shirt, Underwear, Shorts, Sandals"
         document.getElementById("swelter").style.opacity = 0.85;       
         } else if (temp < 23 && temp >= 19 ) {
-        document.getElementById("clothes").innerHTML = "Cap, Shirt, Underwear, Pants, Socks, Sneakers";
+        document.getElementById("clothes").innerHTML = "Cap, T-shirt, Underwear, Pants, Socks, Sneakers";
         document.getElementById("warmest").style.opacity = 0.85;   
         } else if (temp < 19 && temp >= 14 ) {
-        document.getElementById("clothes").innerHTML = "Cap, Shirt, Sweater, Underwear, Pants, Socks, Sneakers";
+        document.getElementById("clothes").innerHTML = "Cap, T-Shirt, Sweater, Underwear, Pants, Socks, Sneakers";
         document.getElementById("warm").style.opacity = 0.85;       
         } else if (temp < 14 && temp >= 9 ) {
-        document.getElementById("clothes").innerHTML = "Cap, Shirt, Sweater, Jacket, Underwear, Pants, Socks, Sneakers";        
+        document.getElementById("clothes").innerHTML = "Cap, T-Shirt, Sweater, Jacket, Underwear, Pants, Socks, Sneakers";        
         document.getElementById("warmish").style.opacity = 0.85;       
         } else if (temp < 9 && temp >= 5 ) {
-        document.getElementById("clothes").innerHTML = "Cap, Gloves, Shirt, Sweater, Jacket, Underwear, Pants, Outer pants, Socks, Boots";        
+        document.getElementById("clothes").innerHTML = "Cap, Gloves, T-shirt, Sweater, Jacket, Underwear, Pants, Outer pants, Socks, Boots";        
         document.getElementById("semiwarm").style.opacity = 0.85;       
-        }else if (temp < 5 && temp >= -3 ) {
-        document.getElementById("clothes").innerHTML = "Beanie, Mittens, Shirt, Sweater, Insulated jacket, Underwear, Pants, Outer pants, Socks, Boots";        
+        } else if (temp < 5 && temp >= 0 ) {
+        document.getElementById("clothes").innerHTML = "Beanie, Gloves, T-shirt, Sweater, Insulated jacket, Underwear, Pants, Outer pants, Socks, Boots";        
         document.getElementById("zero").style.opacity = 0.85;       
+        } else if (temp < 0 && temp >= -3 ) {
+        document.getElementById("clothes").innerHTML = "Woolly hat, Mittens, T-shirt, Sweater, Insulated jacket, Underwear, Pants, Outer pants, Socks, Winter Boots";        
+        document.getElementById("subzero").style.opacity = 0.85;       
         } else if (temp < -3 && temp >= -7 ) {
         document.getElementById("clothes").innerHTML = "Woolly hat, Mittens, Shirt, Warm sweater, Winter jacket, Underwear, Pants, Winter pants, Socks, Winter boots";
         document.getElementById("semicold").style.opacity = 0.85;       
