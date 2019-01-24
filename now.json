@@ -1,4 +1,8 @@
 {
     "name": "kidswear",
-    "alias": "kidswear"
+    "alias": [
+        "kidswear",
+        "kidswear.today",
+        "www.kidswear.today"
+        ]
 }
