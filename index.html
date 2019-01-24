@@ -161,12 +161,12 @@ input[type=range]::-webkit-slider-thumb {
         updateTemp(0);
         document.getElementById("notset").style.opacity = 1.0;       
         document.getElementById("set").style.opacity = 0.0;
-        document.getElementById("desc").innerHTML = "Location not set"    
+        document.getElementById("desc").innerHTML = "Show the local temperature"    
     } else if ( localStorage.getItem("temp") != "" && Date.now() - localStorage.timeStamp < 600000 ) {
         temp = localStorage.getItem("temp");
         slider.value = temp;
         updateTemp(temp);
-        document.getElementById("desc").innerHTML = "Location set: " + localStorage.getItem("name");
+        document.getElementById("desc").innerHTML = "Current temperature in " + localStorage.getItem("name");
     } else {
         lat = localStorage.getItem("latitude");
         lon = localStorage.getItem("longitude");
@@ -188,7 +188,7 @@ input[type=range]::-webkit-slider-thumb {
         localStorage.setItem("name", result.name);
         localStorage.setItem("temp", temp);
         localStorage.setItem("timeStamp", Date.now());
-        document.getElementById("desc").innerHTML = "Location set: " + result.name;
+        document.getElementById("desc").innerHTML = "Current temperature in " + result.name;
         slider.value = temp;
         updateTemp(temp);
         });
@@ -207,6 +207,9 @@ input[type=range]::-webkit-slider-thumb {
 
     slider.oninput = function() {
         updateTemp(this.value);
+        document.getElementById("notset").style.opacity = 1.0;       
+        document.getElementById("set").style.opacity = 0.0;
+        document.getElementById("desc").innerHTML = "Show the local temperature"    
     }
 
     function clothing(temp) {
@@ -222,10 +225,10 @@ input[type=range]::-webkit-slider-thumb {
         document.getElementById("clothes").innerHTML = "Cap, T-shirt, Underwear, Pants, Socks, Sneakers";
         document.getElementById("warmest").style.opacity = 0.85;   
         } else if (temp < 19 && temp >= 14 ) {
-        document.getElementById("clothes").innerHTML = "Cap, T-Shirt, Sweater, Underwear, Pants, Socks, Sneakers";
+        document.getElementById("clothes").innerHTML = "Cap, T-shirt, Sweater, Underwear, Pants, Socks, Sneakers";
         document.getElementById("warm").style.opacity = 0.85;       
         } else if (temp < 14 && temp >= 10 ) {
-        document.getElementById("clothes").innerHTML = "Cap, T-Shirt, Sweater, Jacket, Underwear, Pants, Socks, Sneakers";        
+        document.getElementById("clothes").innerHTML = "Cap, T-shirt, Sweater, Jacket, Underwear, Pants, Socks, Sneakers";        
         document.getElementById("warmish").style.opacity = 0.85;       
         } else if (temp < 10 && temp >= 6 ) {
         document.getElementById("clothes").innerHTML = "Cap, Gloves, T-shirt, Sweater, Jacket, Underwear, Pants, Shell pants, Socks, Boots";        
@@ -249,7 +252,7 @@ input[type=range]::-webkit-slider-thumb {
     }
 
     function getLocation() {
-        document.getElementById("desc").innerHTML = "Searching for your location..."
+        document.getElementById("desc").innerHTML = "Fetching the current temperature..."
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
             function(position) {
@@ -263,7 +266,7 @@ input[type=range]::-webkit-slider-thumb {
 
             },
             function errorCallback(error) {
-                document.getElementById("desc").innerHTML = "Location could not be set";
+                document.getElementById("desc").innerHTML = "Couldn't find the location, please try again";
                 document.getElementById("notset").style.opacity = 1.0;       
                 document.getElementById("set").style.opacity = 0.0;
                 console.log(error);
