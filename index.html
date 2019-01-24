@@ -266,6 +266,8 @@ input[type=range]::-webkit-slider-thumb {
             lat = localStorage.getItem("latitude");
             lon = localStorage.getItem("longitude");
             getWeatherData(lat, lon);
+            document.getElementById("notset").style.opacity = 0.0;       
+            document.getElementById("set").style.opacity = 1.0;
         }
     }
 </script>
