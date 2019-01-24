@@ -109,22 +109,8 @@ input[type=range]::-webkit-slider-thumb {
 #clothes {
     font-size: 0.55em;
 }
-
-@media only screen and (max-width: 37.5em) {
-    body {
-        font-size: 1.5em;    
-    }
-    .header {
-        font-size: 1.5em;
-    }
-    .slider input {
-    }
-}
-
 </style>
-
 </head>
-
 <body>
     <div class="page">
         <div class="header">Kids wear</div>
@@ -149,7 +135,6 @@ input[type=range]::-webkit-slider-thumb {
             <div class="geo" id="desc"></div>
         </div>
     </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     var slider = document.getElementById("slider");
@@ -162,7 +147,7 @@ input[type=range]::-webkit-slider-thumb {
         document.getElementById("notset").style.opacity = 1.0;       
         document.getElementById("set").style.opacity = 0.0;
         document.getElementById("desc").innerHTML = "Show the local temperature"    
-    } else if ( localStorage.getItem("temp") != "" && Date.now() - localStorage.timeStamp < 600000 ) {
+    } else if ( localStorage.getItem("temp") != "" && Date.now() - localStorage.tempTimeStamp < 600000 ) {
         temp = localStorage.getItem("temp");
         slider.value = temp;
         updateTemp(temp);
@@ -187,7 +172,7 @@ input[type=range]::-webkit-slider-thumb {
         } 
         localStorage.setItem("name", result.name);
         localStorage.setItem("temp", temp);
-        localStorage.setItem("timeStamp", Date.now());
+        localStorage.setItem("tempTimeStamp", Date.now());
         document.getElementById("desc").innerHTML = "Current temperature in " + result.name;
         slider.value = temp;
         updateTemp(temp);
@@ -202,7 +187,7 @@ input[type=range]::-webkit-slider-thumb {
         if ( temp == -25 ) {
             output_temp.innerHTML = "at " + temp + "&deg;C & below";
         }
-        clothing(temp);
+        suggestClothing(temp);
     }
 
     slider.oninput = function() {
@@ -212,9 +197,8 @@ input[type=range]::-webkit-slider-thumb {
         document.getElementById("desc").innerHTML = "Show the local temperature"    
     }
 
-    function clothing(temp) {
+    function suggestClothing(temp) {
         elements = document.getElementsByClassName("image");
-
         for(var i=0; i < elements.length; i++) { 
             elements[i].style.opacity = 0.0;
         }
@@ -252,32 +236,37 @@ input[type=range]::-webkit-slider-thumb {
     }
 
     function getLocation() {
-        document.getElementById("desc").innerHTML = "Fetching the current temperature..."
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-            function(position) {
-                lat = position.coords.latitude;
-                lon = position.coords.longitude;
-                localStorage.setItem("latitude", lat);
-                localStorage.setItem("longitude", lon);
-                getWeatherData(lat, lon);
-                document.getElementById("notset").style.opacity = 0.0;       
-                document.getElementById("set").style.opacity = 1.0;
-
-            },
-            function errorCallback(error) {
-                document.getElementById("desc").innerHTML = "Couldn't find the location, please try again";
-                document.getElementById("notset").style.opacity = 1.0;       
-                document.getElementById("set").style.opacity = 0.0;
-                console.log(error);
-            },
-            {
-                maximumAge:Infinity,
-                timeout:5000
+        if ( localStorage.getItem("latitude") === null || Date.now() - localStorage.geoTimeStamp > 100000 ) {
+            document.getElementById("desc").innerHTML = "Checking...";
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    lat = position.coords.latitude;
+                    lon = position.coords.longitude;
+                    localStorage.setItem("latitude", lat);
+                    localStorage.setItem("longitude", lon);
+                    localStorage.setItem("geoTimeStamp", Date.now());
+                    getWeatherData(lat, lon);
+                    document.getElementById("notset").style.opacity = 0.0;       
+                    document.getElementById("set").style.opacity = 1.0;
+                },
+                function errorCallback(error) {
+                    document.getElementById("desc").innerHTML = "Couldn't get the location, please try again";
+                    document.getElementById("notset").style.opacity = 1.0;       
+                    document.getElementById("set").style.opacity = 0.0;
+                    console.log(error);
+                },
+                {
+                    maximumAge:Infinity,
+                    timeout:5000
+                }
+                );
             }
-            );
+        } else {
+            lat = localStorage.getItem("latitude");
+            lon = localStorage.getItem("longitude");
+            getWeatherData(lat, lon);
         }
     }
 </script>
-
 </body>
