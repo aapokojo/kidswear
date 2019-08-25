@@ -316,8 +316,7 @@ input[type=range]::-webkit-slider-thumb {
     }
 
     function getLocation() {
-        // if ( localStorage.getItem("latitude") === null || Date.now() - localStorage.geoTimeStamp > 100000 ) {
-        if ( localStorage.getItem("latitude") === null || Date.now() - localStorage.geoTimeStamp > 1 ) {
+        if ( localStorage.getItem("latitude") === null || Date.now() - localStorage.geoTimeStamp > 100000 ) {
             document.getElementById("desc").innerHTML = "Checking...";
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
