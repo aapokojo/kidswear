@@ -88,6 +88,19 @@ a {
     width: 100%;
     text-align: right;
 }
+#weather {
+    top: 55px;
+    text-align: right;
+    border: none;
+    width: 45px;
+}
+.weather_icon {
+    height: 45px;
+}
+.weather_time {
+    text-align: center;
+    width: 45px;
+}
 .slider {
     display: block;
     position: absolute;
@@ -171,6 +184,12 @@ input[type=range]::-webkit-slider-thumb {
             <img class="geo" id="notset" src="geo_notset.svg">
             <img class="geo" id="set" src="geo_set.svg">
             <div class="geo" id="desc"></div>
+            <div class="geo" id="weather">
+                <div class="weather_time">
+                    <img class="weather_icon" id="weather_now">
+                    <div class="weather_time" id="weather_now_time"></div>
+                </div>
+            </div>
         </div>
         <a href="mailto:aapo@kidswear.today">aapo@kidswear.today</a>
     </div>
@@ -185,12 +204,12 @@ input[type=range]::-webkit-slider-thumb {
         updateTemp(0);
         document.getElementById("notset").style.opacity = 1.0;       
         document.getElementById("set").style.opacity = 0.0;
-        document.getElementById("desc").innerHTML = "Show the local temperature"    
+        document.getElementById("desc").innerHTML = "Show the local weather"    
     } else if ( localStorage.getItem("temp") != "" && Date.now() - localStorage.tempTimeStamp < 600000 ) {
         temp = localStorage.getItem("temp");
         slider.value = temp;
         updateTemp(temp);
-        document.getElementById("desc").innerHTML = "Current temperature in " + localStorage.getItem("name");
+        document.getElementById("desc").innerHTML = "Current weather in " + localStorage.getItem("name");
     } else {
         lat = localStorage.getItem("latitude");
         lon = localStorage.getItem("longitude");
@@ -198,21 +217,25 @@ input[type=range]::-webkit-slider-thumb {
     }
 
     function getWeatherData(lat, lon) {
-        $.getJSON('https://api.openweathermap.org/data/2.5/weather?' 
+        $.getJSON('http://api.openweathermap.org/data/2.5/forecast?' 
         + 'lat=' + lat
         + '&lon=' + lon
         + '&APPID=92acb4ae0793881bc18ae00ef1ce1f8a', 
         function(result){
-        temp = Math.round(result.main.temp - 273.15)
+        temp = Math.round(result.list[0].main.temp - 273.15)
         if ( temp > 25 ) {
             temp = 25;
         } else if ( temp < -25 ) {
             temp = -25;
-        } 
-        localStorage.setItem("name", result.name);
+        }
+
+        document.getElementById("weather_now").src = "http://openweathermap.org/img/wn/" + result.list[0].weather[0].icon + "@2x.png";
+        document.getElementById("weather_now_time").innerHTML = "Now";
+
+        localStorage.setItem("name", result.city.name );
         localStorage.setItem("temp", temp);
         localStorage.setItem("tempTimeStamp", Date.now());
-        document.getElementById("desc").innerHTML = "Current temperature in " + result.name;
+        document.getElementById("desc").innerHTML = "Current weather in " + result.city.name;
         slider.value = temp;
         updateTemp(temp);
         });
@@ -233,7 +256,7 @@ input[type=range]::-webkit-slider-thumb {
         updateTemp(this.value);
         document.getElementById("notset").style.opacity = 1.0;       
         document.getElementById("set").style.opacity = 0.0;
-        document.getElementById("desc").innerHTML = "Show the local temperature"    
+        document.getElementById("desc").innerHTML = "Show the local weather"    
     }
 
     function suggestClothing(temp) {
