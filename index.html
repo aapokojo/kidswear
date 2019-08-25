@@ -215,9 +215,11 @@ input[type=range]::-webkit-slider-thumb {
         document.getElementById("desc").innerHTML = "Show the local weather"    
     } else if ( localStorage.getItem("temp") != "" && Date.now() - localStorage.tempTimeStamp < 600000 ) {
         temp = localStorage.getItem("temp");
+        forecast = JSON.parse(localStorage.getItem("forecast"))
         slider.value = temp;
         updateTemp(temp);
-        document.getElementById("desc").innerHTML = "Current weather in " + localStorage.getItem("name");
+        updateForecast(forecast);
+        document.getElementById("desc").innerHTML = "Weather in " + localStorage.getItem("name");
     } else {
         lat = localStorage.getItem("latitude");
         lon = localStorage.getItem("longitude");
@@ -237,25 +239,29 @@ input[type=range]::-webkit-slider-thumb {
             temp = -25;
         }
 
-        var d = new Date(result.list[0].dt*1000).getHours()
-        var d2 = new Date(result.list[1].dt*1000).getHours()
-        var d3 = new Date(result.list[2].dt*1000).getHours()
-
-        document.getElementById("weather_now").src = "https://openweathermap.org/img/wn/" + result.list[0].weather[0].icon + "@2x.png";
-        document.getElementById("weather_now_time").innerHTML = d;
-
-        document.getElementById("weather_3").src = "https://openweathermap.org/img/wn/" + result.list[1].weather[0].icon + "@2x.png";
-        document.getElementById("weather_3_time").innerHTML = d2;
-
-        document.getElementById("weather_6").src = "https://openweathermap.org/img/wn/" + result.list[2].weather[0].icon + "@2x.png";
-        document.getElementById("weather_6_time").innerHTML = d3;
-
+        var forecast = [
+                {
+                "hours" : new Date(result.list[0].dt*1000).getHours(),
+                "icon" : result.list[0].weather[0].icon
+                },
+                {
+                "hours" : new Date(result.list[1].dt*1000).getHours(),
+                "icon" : result.list[1].weather[0].icon
+                },
+                {
+                "hours" : new Date(result.list[2].dt*1000).getHours(),
+                "icon" : result.list[2].weather[0].icon
+                }
+        ]
+        
         localStorage.setItem("name", result.city.name );
         localStorage.setItem("temp", temp);
+        localStorage.setItem("forecast", JSON.stringify(forecast));
         localStorage.setItem("tempTimeStamp", Date.now());
-        document.getElementById("desc").innerHTML = "Current weather in " + result.city.name;
+        document.getElementById("desc").innerHTML = "Weather in " + result.city.name;
         slider.value = temp;
         updateTemp(temp);
+        updateForecast(forecast);
         });
     }
 
@@ -268,6 +274,17 @@ input[type=range]::-webkit-slider-thumb {
             output_temp.innerHTML = "at " + temp + "&deg;C & below";
         }
         suggestClothing(temp);
+    }
+
+    function updateForecast(forecast) {
+        document.getElementById("weather_now").src = "https://openweathermap.org/img/wn/" + forecast[0].icon + "@2x.png";
+        document.getElementById("weather_now_time").innerHTML = forecast[0].hours;
+
+        document.getElementById("weather_3").src = "https://openweathermap.org/img/wn/" + forecast[1].icon + "@2x.png";
+        document.getElementById("weather_3_time").innerHTML = forecast[1].hours;
+
+        document.getElementById("weather_6").src = "https://openweathermap.org/img/wn/" + forecast[2].icon + "@2x.png";
+        document.getElementById("weather_6_time").innerHTML = forecast[2].hours;
     }
 
     slider.oninput = function() {
