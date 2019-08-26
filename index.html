@@ -98,6 +98,13 @@ a {
     height: 45px;
 }
 .weather_time {
+    margin-top: 5px;
+    margin-bottom: -5px;
+    text-align: center;
+    width: 45px;
+}
+.weather_temp {
+    margin-top: -5px;
     text-align: center;
     width: 45px;
 }
@@ -186,16 +193,19 @@ input[type=range]::-webkit-slider-thumb {
             <div class="geo" id="desc"></div>
             <div class="geo" id="weather">
                 <div class="weather_time">
-                    <img class="weather_icon" id="weather_now">
                     <div class="weather_time" id="weather_now_time"></div>
+                    <img class="weather_icon" id="weather_now">
+                    <div class="weather_temp" id="weather_now_temp"></div>
                 </div>
                 <div class="weather_time">
-                        <img class="weather_icon" id="weather_3">
-                        <div class="weather_time" id="weather_3_time"></div>
-                </div>
+                    <div class="weather_time" id="weather_3_time"></div>
+                    <img class="weather_icon" id="weather_3">
+                    <div class="weather_temp" id="weather_3_temp"></div>
+                    </div>
                 <div class="weather_time">
-                        <img class="weather_icon" id="weather_6">
-                        <div class="weather_time" id="weather_6_time"></div>
+                    <div class="weather_time" id="weather_6_time"></div>
+                    <img class="weather_icon" id="weather_6">
+                    <div class="weather_temp" id="weather_6_temp"></div>
                 </div>            
             </div>
         </div>
@@ -242,15 +252,18 @@ input[type=range]::-webkit-slider-thumb {
         var forecast = [
                 {
                 "hours" : new Date(result.list[0].dt*1000).getHours(),
-                "icon" : result.list[0].weather[0].icon
+                "icon" : result.list[0].weather[0].icon,
+                "temp" : Math.round(result.list[0].main.temp - 273.15)
                 },
                 {
                 "hours" : new Date(result.list[1].dt*1000).getHours(),
-                "icon" : result.list[1].weather[0].icon
+                "icon" : result.list[1].weather[0].icon,
+                "temp" : Math.round(result.list[1].main.temp - 273.15)
                 },
                 {
                 "hours" : new Date(result.list[2].dt*1000).getHours(),
-                "icon" : result.list[2].weather[0].icon
+                "icon" : result.list[2].weather[0].icon,
+                "temp" : Math.round(result.list[2].main.temp - 273.15)
                 }
         ]
         
@@ -279,12 +292,15 @@ input[type=range]::-webkit-slider-thumb {
     function updateForecast(forecast) {
         document.getElementById("weather_now").src = "https://openweathermap.org/img/wn/" + forecast[0].icon + "@2x.png";
         document.getElementById("weather_now_time").innerHTML = forecast[0].hours;
+        document.getElementById("weather_now_temp").innerHTML = forecast[0].temp + "&deg;C";
 
         document.getElementById("weather_3").src = "https://openweathermap.org/img/wn/" + forecast[1].icon + "@2x.png";
         document.getElementById("weather_3_time").innerHTML = forecast[1].hours;
+        document.getElementById("weather_3_temp").innerHTML = forecast[1].temp + "&deg;C";
 
         document.getElementById("weather_6").src = "https://openweathermap.org/img/wn/" + forecast[2].icon + "@2x.png";
         document.getElementById("weather_6_time").innerHTML = forecast[2].hours;
+        document.getElementById("weather_6_temp").innerHTML = forecast[2].temp + "&deg;C";
     }
 
     slider.oninput = function() {
