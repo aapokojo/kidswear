@@ -74,7 +74,6 @@ a {
     text-align: right;
 }
 .geo {
-    display: flex;
     position: absolute;
     top: 0px;
     width: 30px;
@@ -91,6 +90,7 @@ a {
     text-align: right;
 }
 #weather {
+    display: flex;
     top: 80px;
     text-align: right;
     border: none;
@@ -274,6 +274,7 @@ input[type=range]::-webkit-slider-thumb {
         localStorage.setItem("forecast", JSON.stringify(forecast));
         localStorage.setItem("tempTimeStamp", Date.now());
         document.getElementById("desc").innerHTML = "Weather in " + result.city.name;
+        document.getElementById("weather").style.display = "flex";
         slider.value = temp;
         updateTemp(temp);
         updateForecast(forecast);
@@ -309,6 +310,7 @@ input[type=range]::-webkit-slider-thumb {
         updateTemp(this.value);
         document.getElementById("notset").style.opacity = 1.0;       
         document.getElementById("set").style.opacity = 0.0;
+        document.getElementById("weather").style.display = "none";
         document.getElementById("desc").innerHTML = "Show the local weather"    
     }
 
