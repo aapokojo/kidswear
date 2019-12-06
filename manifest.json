@@ -1,5 +1,9 @@
 {
- "name": "App",
+ "name": "Kids Wear",
+ "start_url": ".",
+ "background_color": "#ffffff",
+ "theme_color": "#ffffff",
+ "display": "fullscreen",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
