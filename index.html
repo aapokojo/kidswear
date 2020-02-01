@@ -35,6 +35,7 @@
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css?family=Major+Mono+Display" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style type="text/css">
 body {
     background-color: white;
@@ -109,6 +110,14 @@ a {
     margin-top: -5px;
     text-align: center;
     width: 70px;
+}
+.weather_wind_dir {
+    font-size: 100%;
+    margin-top: 10px;
+}
+.weather_wind_speed {
+    margin-top: 5px;
+    font-size: 80%;
 }
 .slider {
     display: block;
@@ -198,16 +207,22 @@ input[type=range]::-webkit-slider-thumb {
                     <div class="weather_time" id="weather_now_time"></div>
                     <img class="weather_icon" id="weather_now">
                     <div class="weather_temp" id="weather_now_temp"></div>
+                    <i class="material-icons weather-wind-icon weather_wind_dir" id="weather_now_wind_dir">navigation</i>
+                    <div class="weather_wind_speed" id="weather_now_wind_speed"></div>
                 </div>
                 <div class="weather_time">
                     <div class="weather_time" id="weather_3_time"></div>
                     <img class="weather_icon" id="weather_3">
                     <div class="weather_temp" id="weather_3_temp"></div>
+                    <i class="material-icons weather-wind-icon weather_wind_dir" id="weather_3_wind_dir">navigation</i>
+                    <div class="weather_wind_speed" id="weather_3_wind_speed"></div>
                     </div>
                 <div class="weather_time">
                     <div class="weather_time" id="weather_6_time"></div>
                     <img class="weather_icon" id="weather_6">
                     <div class="weather_temp" id="weather_6_temp"></div>
+                    <i class="material-icons weather-wind-icon weather_wind_dir" id="weather_6_wind_dir">navigation</i>
+                    <div class="weather_wind_speed" id="weather_6_wind_speed"></div>
                 </div>            
             </div>
         </div>
@@ -255,17 +270,23 @@ input[type=range]::-webkit-slider-thumb {
                 {
                 "hours" : new Date(result.list[0].dt*1000).getHours(),
                 "icon" : result.list[0].weather[0].icon,
-                "temp" : Math.round(result.list[0].main.temp - 273.15)
+                "temp" : Math.round(result.list[0].main.temp - 273.15),
+                "wind_speed" : result.list[0].wind.speed.toFixed(0),
+                "wind_dir" : result.list[0].wind.deg.toFixed(0)
                 },
                 {
                 "hours" : new Date(result.list[1].dt*1000).getHours(),
                 "icon" : result.list[1].weather[0].icon,
-                "temp" : Math.round(result.list[1].main.temp - 273.15)
+                "temp" : Math.round(result.list[1].main.temp - 273.15),
+                "wind_speed" : result.list[1].wind.speed.toFixed(0),
+                "wind_dir" : result.list[1].wind.deg.toFixed(0)
                 },
                 {
                 "hours" : new Date(result.list[2].dt*1000).getHours(),
                 "icon" : result.list[2].weather[0].icon,
-                "temp" : Math.round(result.list[2].main.temp - 273.15)
+                "temp" : Math.round(result.list[2].main.temp - 273.15),
+                "wind_speed" : result.list[2].wind.speed.toFixed(0),
+                "wind_dir" : result.list[2].wind.deg.toFixed(0)
                 }
         ]
         
@@ -296,14 +317,20 @@ input[type=range]::-webkit-slider-thumb {
         document.getElementById("weather_now").src = "https://openweathermap.org/img/wn/" + forecast[0].icon + "@2x.png";
         document.getElementById("weather_now_time").innerHTML = forecast[0].hours;
         document.getElementById("weather_now_temp").innerHTML = forecast[0].temp + "&deg;C";
+        document.getElementById("weather_now_wind_speed").innerHTML = forecast[0].wind_speed + " <sup>m</sup>/<sub>s</sub>";
+        document.getElementById("weather_now_wind_dir").style = "transform: rotate(" + (forecast[0].wind_dir - 180) + "deg)";
 
         document.getElementById("weather_3").src = "https://openweathermap.org/img/wn/" + forecast[1].icon + "@2x.png";
         document.getElementById("weather_3_time").innerHTML = forecast[1].hours;
         document.getElementById("weather_3_temp").innerHTML = forecast[1].temp + "&deg;C";
+        document.getElementById("weather_3_wind_speed").innerHTML = forecast[1].wind_speed + " <sup>m</sup>/<sub>s</sub>";
+        document.getElementById("weather_3_wind_dir").style = "transform: rotate(" + (forecast[1].wind_dir - 180) + "deg)";
 
         document.getElementById("weather_6").src = "https://openweathermap.org/img/wn/" + forecast[2].icon + "@2x.png";
         document.getElementById("weather_6_time").innerHTML = forecast[2].hours;
         document.getElementById("weather_6_temp").innerHTML = forecast[2].temp + "&deg;C";
+        document.getElementById("weather_6_wind_speed").innerHTML = forecast[2].wind_speed + " <sup>m</sup>/<sub>s</sub>";
+        document.getElementById("weather_6_wind_dir").style = "transform: rotate(" + (forecast[2].wind_dir - 180) + "deg)";
     }
 
     slider.oninput = function() {
