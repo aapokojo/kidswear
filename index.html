@@ -42,11 +42,15 @@ body {
     color: black;
     margin: 0;
     padding: 0;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     font-family: 'Major Mono Display', monospace;
     font-size: 1.5em;    
     max-width: 600px;
     box-sizing: border-box;
+}
+@supports (padding: env(safe-area-inset-top)) {
+    body {
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
 }
 a {
     display: block;
