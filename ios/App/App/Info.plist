@@ -45,5 +45,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Kids Wear uses your location to show local weather for clothing recommendations.</string>
 </dict>
 </plist>

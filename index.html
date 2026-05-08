@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://kidswear.today/">
 <meta name="twitter:card" content="summary_large_image">
 <title>Kids Wear</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta charset="UTF-8">
 <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
@@ -41,10 +41,11 @@ body {
     background-color: white;
     color: black;
     margin: 0;
-    padding: 0;
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
     font-family: 'Major Mono Display', monospace;
     font-size: 1.5em;    
     max-width: 600px;
+    box-sizing: border-box;
 }
 a {
     display: block;
