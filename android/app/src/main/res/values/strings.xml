@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kids Wear</string>
+    <string name="title_activity_main">Kids Wear</string>
+    <string name="package_name">today.kidswear.app</string>
+    <string name="custom_url_scheme">today.kidswear.app</string>
+</resources>
