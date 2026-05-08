@@ -1,4 +1,4 @@
-package today.kidswear.app;
+package today.kidswear;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "today.kidswear.app"
+    namespace "today.kidswear"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "today.kidswear.app"
+        applicationId "today.kidswear"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
