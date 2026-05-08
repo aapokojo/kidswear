@@ -42,6 +42,7 @@ body {
     color: black;
     margin: 0;
     padding: 0;
+    --safe-area-top: 0px;
     font-family: 'Major Mono Display', monospace;
     font-size: 1.5em;    
     max-width: 600px;
@@ -49,6 +50,7 @@ body {
 }
 @supports (padding: env(safe-area-inset-top)) {
     body {
+        --safe-area-top: env(safe-area-inset-top);
         padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 }
@@ -78,7 +80,7 @@ a {
 .location {
     display: block;
     position: absolute;
-    top: 500px;
+    top: calc(500px + var(--safe-area-top));
     right: 13px;
     font-size: 0.4em;
     width: 90%;
@@ -134,7 +136,7 @@ a {
 .slider {
     display: block;
     position: absolute;
-    top: 180px;
+    top: calc(180px + var(--safe-area-top));
     right: 15px;
     padding-top: 0px;
     width: 30px;
@@ -169,7 +171,7 @@ input[type=range]::-webkit-slider-thumb {
 .image {
     display: block;
     position: absolute;
-    top: 150px;
+    top: calc(150px + var(--safe-area-top));
     left: 5px;
     width: 80%;
     max-width: 400px;
